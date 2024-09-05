@@ -1,0 +1,37 @@
+import json
+import boto3
+
+
+dynamodb = boto3.resource('dynamodb')
+table_name = 'enteryourtablename' 
+ table = dynamodb.Table(table_name)
+
+def lambda_handler(event, context):
+    
+    data = json.loads(event['body'])  
+    firstname = data['firstname']
+    lastname = data['lastname']
+    emailid = data['emailid']
+    phno = data['phno']
+    dob = data['dob']
+    gender = data['gender']
+    address = data['address']
+
+    
+    table.put_item(
+        Item={
+            'emailid': emailid,  
+            'firstname': firstname,
+            'lastname': lastname,
+            'phno': phno,
+            'dob': dob,
+            'gender': gender,
+            'address': address
+        }
+    )
+    
+    # Return a success response
+    return {
+        'statusCode': 200,
+        'body': json.dumps('Data saved ')
+    }

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+    <style>
+        body {
+            background-color: #1A1A1D;
+            font-family: 'Arial', sans-serif;
+            color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            background-color: #2C2C34;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        h1 {
+            color: #FFD700;
+            font-family: 'Arial', sans-serif;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        label {
+            color: #FF5733;
+            font-family: 'Arial', sans-serif;
+            font-size: 18px;
+            margin: 10px 0;
+            display: block;
+            text-align: left;
+        }
+
+        input, select {
+            background-color: #FFFFFF;
+            color: #333333;
+            font-family: 'Arial', sans-serif;
+            font-size: 18px;
+            padding: 10px;
+            margin-bottom: 20px;
+            width: calc(100% - 22px);
+            border: 2px solid #FF5733;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #C70039;
+            border-color: #C70039;
+            color: #FFFFFF;
+            font-family: 'Arial', sans-serif;
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #900C3F;
+        }
+    </style>
+    <script>
+        var callAPI = () => {
+            var firstname = document.getElementById('firstname').value;
+            var lastname = document.getElementById('lastname').value;
+            var emailid = document.getElementById('emailid').value;
+            var phno = document.getElementById('phno').value;
+            var dob = document.getElementById('dob').value;
+            var gender = document.getElementById('gender').value;
+            var address = document.getElementById('address').value;
+
+            var data = {
+                "firstname": firstname,
+                "lastname": lastname,
+                "emailid": emailid,
+                "phno": phno,
+                "dob": dob,
+                "gender": gender,
+                "address": address
+            };
+
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var raw = JSON.stringify(data);
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch("https://i0qwvc7vg3.execute-api.us-east-1.amazonaws.com/prod", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    alert('Data saved successfully!');
+                })
+                .catch(error => console.log('Error:', error));
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Registration Form</h1>
+        <form>
+            <label for="firstname">First Name</label>
+            <input type="text" id="firstname" placeholder="Enter your first name">
+            
+            <label for="lastname">Last Name</label>
+            <input type="text" id="lastname" placeholder="Enter your last name">
+            
+            <label for="emailid">Email ID</label>
+            <input type="email" id="emailid" placeholder="Enter your email">
+
+            <label for="phno">Phone Number</label>
+            <input type="tel" id="phno" placeholder="Enter your phone number">
+            
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob">
+            
+            <label for="gender">Gender</label>
+            <select id="gender">
+                <option value="" disabled selected>Select your gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            
+            <label for="address">Address</label>
+            <input type="text" id="address" placeholder="Enter your address">
+
+            <button type="button" onclick="callAPI()">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
